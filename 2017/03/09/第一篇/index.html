@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="闫乐在 Github 上的个人博客">
+    <meta name="keyword" content="Aller05,闫乐,前端,大前端,H5,全栈工程师,hexo,blog,github,北京">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="http://img.zcool.cn/sucaiori/49D4C592-1978-4E70-DAD3-0DD5A3B47775.png@700w_0e_1l.png">
+    <link rel="alternate" type="application/atom+xml" title="Aller" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        先来一篇｜Aller&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://github.com/Aller05/Aller05.github.io/2017/03/09/第一篇/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('http://omj9dkm9p.bkt.clouddn.com/%E5%8D%83%E5%BA%93%E7%BD%91-%E8%93%9D%E5%A4%A9%E4%B8%8B%E7%9A%84%E6%B0%B4%E9%9D%A2.jpg?imageslim')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Aller
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/about/">About me</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/demo/">demo</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="http://omj9dkm9p.bkt.clouddn.com/%E8%93%9D%E5%A4%A9%E4%B8%8B%E7%9A%84%E6%B0%B4%E9%9D%A2.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://omj9dkm9p.bkt.clouddn.com/%E8%93%9D%E5%A4%A9%E4%B8%8B%E7%9A%84%E6%B0%B4%E9%9D%A2.jpg');
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>先来一篇</h1>
+                    
+                    <h2 class="subheading">虽然是技术博客,但是也可以爱生活阿!</h2>
+                    
+                    <span class="meta">
+                         作者 闫乐
+                        <span>
+                          日期 2017-03-09
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#Life"
+                           title="Life">Life</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            先来一篇
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <hr>
+<hr>
+<h1>Blog终于搭好了</h1>
+<h2>①其实基于hexo的博客很好搞!!!</h2>
+<p>其实网上教程蛮多的，博客主体搭建也比较简单,就是先安装配置机器的Git和Node.js环境,因为之前就已经都配置好了,所以直接按网上教程初始化Hexo即可.</p>
+<h2>②可是搞出完美的主题效果却不好搞!!!(当然Next除外)</h2>
+<p>最大的麻烦在于,本身已经是一个<strong>注重细节</strong>的巨蟹座了,偏偏骨子里还藏着<strong>追求完美</strong>的处女座的影子,其实我并不太关注星座相关的,哈哈...
+所以对于常见的一些博客主题并不想用,像大火特火的Next,总想有些差异化,所以淘到了Anisina,作者为 <a href="https://haojen.github.io/" title="Haojen Ma" target="_blank" rel="external">https://haojen.github.io/</a>,非常喜欢这个主题.随之而来的就是文档并不太清晰,不像Next那么详细而又通俗易懂,所以便开始踩坑,还好现在像那么回事儿了,不过还有好些功能等待研究..是个慢活儿!</p>
+<h2>③Run</h2>
+<p>今天除了搭好了博客,还跑了人生中第二个十公里...记得上一次一口气跑十公里还是九个月前,九个月了,总计里程才七十多公里,也是挺不好意思的开口说的..可这也不能赖我,跑步有益健康,可雾霾有害健康..碰到一个既有时间空气指数100以下的时候,在北京这地儿,难!!!</p>
+<h2>④Eed,前方多图预警...</h2>
+<p>我没啥特殊爱好,除了和代码死磕意外,就只有跑步、拍照(还不敢说是摄影,哈哈)、和下厨房!好了,今天就这样吧,上个今天跑步截图,再贴点儿最近拍的比较好看的照片..各位晚安(虽然今天也没人看,说给自己吧...)</p>
+<h5><strong>1.先来十公里记录</strong></h5>
+<p><img src="http://omj9dkm9p.bkt.clouddn.com/20170309%E5%8D%81%E5%85%AC%E9%87%8C.PNG" alt=""></p>
+<h5><strong>2.2017年的初雪微拍</strong></h5>
+<p><img src="http://omj9dkm9p.bkt.clouddn.com/2017%E5%88%9D%E9%9B%AA%E9%BB%91%E7%99%BD%E5%BE%AE%E6%8B%8D1.jpg" alt=""></p>
+<h5><strong>3.2017年的初雪微拍</strong></h5>
+<p><img src="http://omj9dkm9p.bkt.clouddn.com/2017%E5%88%9D%E9%9B%AA%E9%BB%91%E7%99%BD%E5%BE%AE%E6%8B%8D2.jpg" alt=""></p>
+<h5><strong>4.故宫全景,景山山顶拍的</strong></h5>
+<p><img src="http://omj9dkm9p.bkt.clouddn.com/%E6%95%85%E5%AE%AB%E5%85%A8%E6%99%AF.jpg" alt=""></p>
+<h5><strong>5.枯黄芦苇,冬天也是一种美</strong></h5>
+<p><img src="http://omj9dkm9p.bkt.clouddn.com/%E6%B2%B3%E8%BE%B9%E8%8A%A6%E8%8B%87.JPG" alt=""></p>
+<h5><strong>6.十三陵水库</strong></h5>
+<p><img src="http://omj9dkm9p.bkt.clouddn.com/%E5%8D%81%E4%B8%89%E9%99%B5%E6%B0%B4%E5%BA%93%E8%99%9A%E5%8C%961.JPG" alt=""></p>
+<h5><strong>7.雾霾下的奥体广场</strong></h5>
+<p><img src="http://omj9dkm9p.bkt.clouddn.com/%E9%9B%BE%E9%9C%BE%E4%B8%8B%E7%9A%84%E5%A5%A5%E4%BD%93.jpg" alt=""></p>
+<h5><strong>8.雾霾下的三里屯</strong></h5>
+<p><img src="http://omj9dkm9p.bkt.clouddn.com/%E9%9B%BE%E9%9C%BE%E4%B8%8B%E7%9A%84%E4%B8%89%E9%87%8C%E5%B1%AF.jpg" alt=""></p>
+<hr>
+<p>2017/3/9 22:38:29</p>
+
+                <hr>
+                
+                <!-- 多说 Share start -->
+                <div class="ds-share"
+                     style="text-align: right"
+                     data-thread-key="2017/03/09/第一篇/"
+                     data-title="先来一篇"
+                     data-url="https://github.com/Aller05/Aller05.github.io/2017/03/09/第一篇/"
+                     data-images="https://github.com/Aller05/Aller05.github.io/2017/03/09/第一篇/http://omj9dkm9p.bkt.clouddn.com/%E8%93%9D%E5%A4%A9%E4%B8%8B%E7%9A%84%E6%B0%B4%E9%9D%A2.jpg"
+                     data-content="
+
+Blog终于搭好了
+①其实基于hexo的博客很好搞!!!
+其实网上教程蛮多的，博客主体搭建... | Aller&#39;s blog ">
+                    <div class="ds-share-inline">
+                        <ul class="ds-share-icons-16">
+                            <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
+                            <li><a class="ds-wechat flat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+                            <li><a class="ds-weibo flat" href="javascript:void(0);" data-service="weibo">微博</a></li>
+                            <li><a class="ds-douban flat" href="javascript:void(0);" data-service="douban">豆瓣</a></li>
+                        </ul>
+                        <div class="ds-share-icons-more">
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/03/12/2017-03-12飞鸟游戏/" data-toggle="tooltip" data-placement="top"
+                           title="基于Canvas的FlappyBird简约版Game">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                         data-thread-key="2017/03/09/第一篇/"
+                         data-title="先来一篇"
+                         data-url="https://github.com/Aller05/Aller05.github.io/2017/03/09/第一篇/">
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#undefined"><span class="toc-text">Blog终于搭好了</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">①其实基于hexo的博客很好搞!!!</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">②可是搞出完美的主题效果却不好搞!!!(当然Next除外)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">③Run</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">④Eed,前方多图预警...</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#undefined"><span class="toc-text">1.先来十公里记录</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#undefined"><span class="toc-text">2.2017年的初雪微拍</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#undefined"><span class="toc-text">3.2017年的初雪微拍</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#undefined"><span class="toc-text">4.故宫全景,景山山顶拍的</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#undefined"><span class="toc-text">5.枯黄芦苇,冬天也是一种美</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#undefined"><span class="toc-text">6.十三陵水库</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#undefined"><span class="toc-text">7.雾霾下的奥体广场</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#undefined"><span class="toc-text">8.雾霾下的三里屯</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#Life"
+                           title="Life">Life</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'Reset';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user};
+    (function () {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';
+        ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/Aller05">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Aller05">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Aller 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- Canvas - ParticleLine  -->
+<script src="/js/particleLineByCanvas.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://github.com/Aller05/Aller05.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="http://img.zcool.cn/sucaiori/03149148-43DA-A3CD-B4A7-E426E8D3DA7F.png@700w_0e_1l.png">
+</body>
+
+</html>

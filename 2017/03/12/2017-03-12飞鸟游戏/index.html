@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="闫乐在 Github 上的个人博客">
+    <meta name="keyword" content="Aller05,闫乐,前端,大前端,H5,全栈工程师,hexo,blog,github,北京">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="http://img.zcool.cn/sucaiori/49D4C592-1978-4E70-DAD3-0DD5A3B47775.png@700w_0e_1l.png">
+    <link rel="alternate" type="application/atom+xml" title="Aller" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        基于Canvas的FlappyBird简约版Game｜Aller&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://github.com/Aller05/Aller05.github.io/2017/03/12/2017-03-12飞鸟游戏/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('http://omj9dkm9p.bkt.clouddn.com/%E5%8D%83%E5%BA%93%E7%BD%91-%E8%93%9D%E5%A4%A9%E4%B8%8B%E7%9A%84%E6%B0%B4%E9%9D%A2.jpg?imageslim')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Aller
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/about/">About me</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/demo/">demo</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="http://omj9dkm9p.bkt.clouddn.com/FlappyBird.png">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://omj9dkm9p.bkt.clouddn.com/FlappyBird.png');
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>基于Canvas的FlappyBird简约版Game</h1>
+                    
+                    <h2 class="subheading">点开游戏试试嘛,反正又不会怀孕...</h2>
+                    
+                    <span class="meta">
+                         作者 闫乐
+                        <span>
+                          日期 2017-03-12
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#Canvas"
+                           title="Canvas">Canvas</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            基于Canvas的FlappyBird简约版Game
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <hr>
+<p>这两天在搞Canvas,开始大家都说什么Canvas用处不大啊之类的,因为有很丰富功能很全面的动画库嘛,可是自从看过一些大牛写过的Canvas效果,内心对Canvas还是非常神往的..</p>
+<p>所以说,说干就干,作为一个开发者,做事都要有一种成长型思维,短资源这么多,没有什么学不会的!!网上如此多的教程就不列举了,不过有个网站要提一下==&gt;<strong>优达学城</strong>,估计大多数人都不知道,是美国那边的一个在线编程教育平台,貌似估值不低..16年初进军中国,最大特色就是和国外一线公司接轨,主要讲师大多来自Google的工程师,全程英文教学(有中文字幕的!),讲课手法和国内的一些教育平台的讲师不太一样,具体感兴趣的可以去官网,我是绝对不会告诉你们所有视频都是免费的!!!😹</p>
+<p>当然了,他们主打的是收费项目,虽然教育视频免费,但是收费项目时提供代码审阅和项目帮助的,就是有非常专业的老师去一行一行看你提交的项目代码,任何任何一丁点的小问题都会给你指出来,你要说你咋这么了解??还能为啥,交钱入坑了呗😁..你问我报的什么学位??这还用问嘛...必然前端嘛!!说真心话,我花钱报主要是拿纳米学位,增加自己的含金量,现在前端这个火海里,得提高自己的亮度🏃!!!当然了,我也非常建议大家报名,网络文凭,这是一个趋势!</p>
+<p>其实老外讲课,就是只给你重点,好多细节性的东西根本不会教你,就是让你有一种成长型思维,让你自己去查,自己去学,其实这样蛮好的,毕竟编程一个不断在学习的过程,不管你资历有多老!!!要做一个终身学习者,在这个飞速发展的社会里,信息不对称这种情况非常少见了,说到编程,可以看看现在中国市场的IOS开发者和前端开发者的市场情况...具体大家都懂得!💀</p>
+<p>好了,扯回到这个小游戏上,虽然界面效果看起来挺Low的,可几年前也是火过的!!别跟我说你没玩过...里面有些点,还是需要好好琢磨一番的,比如碰撞检测/记录分数/难度调整等等..可能对于经常做游戏开发的大神都是毛毛雨...感兴趣的可以去看下代码(注释很详细).</p>
+<p>今天就到这里吧,明天又是一个好天气,继续跑步去..😁</p>
+<p>对了对了,大爷您赏个脸来一局呗?👉<a href="https://aller05.github.io/FlappyBird-demo-By-Canvas/" target="_blank" rel="external">https://aller05.github.io/FlappyBird-demo-By-Canvas/</a>
+(也可以通过右上角的 <strong>DEMO</strong> 进入)</p>
+<blockquote>
+<p>难度系数加大到14,看你能到多少分..欢迎高手下方评论区大胆说出你的 gu(fen) shi(shu)...</p>
+</blockquote>
+<p>高抬贵手点个赞?👉<a href="https://github.com/Aller05/FlappyBird-demo-By-Canvas">https://github.com/Aller05/FlappyBird-demo-By-Canvas</a></p>
+<hr>
+<p>2017/3/12 20:32:24</p>
+
+                <hr>
+                
+                <!-- 多说 Share start -->
+                <div class="ds-share"
+                     style="text-align: right"
+                     data-thread-key="2017/03/12/2017-03-12飞鸟游戏/"
+                     data-title="基于Canvas的FlappyBird简约版Game"
+                     data-url="https://github.com/Aller05/Aller05.github.io/2017/03/12/2017-03-12飞鸟游戏/"
+                     data-images="https://github.com/Aller05/Aller05.github.io/2017/03/12/2017-03-12飞鸟游戏/http://omj9dkm9p.bkt.clouddn.com/FlappyBird.png"
+                     data-content="
+这两天在搞Canvas,开始大家都说什么Canvas用处不大啊之类的,因为有很丰富功能很全面... | Aller&#39;s blog ">
+                    <div class="ds-share-inline">
+                        <ul class="ds-share-icons-16">
+                            <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
+                            <li><a class="ds-wechat flat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+                            <li><a class="ds-weibo flat" href="javascript:void(0);" data-service="weibo">微博</a></li>
+                            <li><a class="ds-douban flat" href="javascript:void(0);" data-service="douban">豆瓣</a></li>
+                        </ul>
+                        <div class="ds-share-icons-more">
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/03/13/2017-03-13粒子线库/" data-toggle="tooltip" data-placement="top"
+                           title="封装了一个简单易用的Canvas粒子线效果库">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/03/09/第一篇/" data-toggle="tooltip" data-placement="top"
+                           title="先来一篇">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                         data-thread-key="2017/03/12/2017-03-12飞鸟游戏/"
+                         data-title="基于Canvas的FlappyBird简约版Game"
+                         data-url="https://github.com/Aller05/Aller05.github.io/2017/03/12/2017-03-12飞鸟游戏/">
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#Canvas"
+                           title="Canvas">Canvas</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'Reset';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user};
+    (function () {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';
+        ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/Aller05">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Aller05">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Aller 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- Canvas - ParticleLine  -->
+<script src="/js/particleLineByCanvas.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://github.com/Aller05/Aller05.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="http://img.zcool.cn/sucaiori/03149148-43DA-A3CD-B4A7-E426E8D3DA7F.png@700w_0e_1l.png">
+</body>
+
+</html>
