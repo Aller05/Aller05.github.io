@@ -32,6 +32,7 @@
 
     <!-- Pygments Github CSS -->
     <link rel="stylesheet" href="/css/syntax.css">
+    <link rel="stylesheet" href="../../../../../node_modules/nib/lib/nib/normalize/embed.styl">
 
 </head>
 
@@ -195,8 +196,8 @@
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
                 <hr>
-<h2>今天好好学习了一下数组的reduce方法,简单说该方法可实现数组内元素的累加,内部自执行循环遍历,传入一个函数作为回调,回调内常用的有累加,数组拼接等,语法形式为:</h2>
-<h3>arr.reduce(callback , [initialValue])</h3>
+<p>今天好好学习了一下数组的reduce方法,简单说该方法可实现数组内元素的累加,内部自执行循环遍历,传入一个函数作为回调,回调内常用的有累加,数组拼接等,语法形式为:</p>
+<h2>arr.reduce(callback , [initialValue])</h2>
 <p>callback（一个在数组中每一项上调用的函数，接受四个函数：）</p>
 <ol>
 <li>previousValue（上一次调用回调函数时的返回值，或者初始值）</li>
@@ -206,7 +207,8 @@
 </ol>
 <p>initialValue（可选的初始值。作为第一次调用回调函数时传给previousValue的值）</p>
 <hr>
-<p>废话不多说,直接上实例代码,第一个实例是统计一个字符串中相同字符出现的次数,因为reduce有兼容问题,所以下面写了一个普通实现方法,一个reduce实现方法.</p>
+<p>废话不多说,直接上实例代码,因为reduce有兼容问题,所以下面两个实例都是写了一个普通实现方法,一个reduce实现方法.</p>
+<h2>1.统计一个字符串中相同字符出现的次数,</h2>
 <pre><code>//因为下面要用到很多isArray方法,该原生方法为ES5推出,所以处理下兼容
 if(typeof Array.isArray != 'function'){
     Array.isArray = function (obj) {
@@ -250,7 +252,7 @@ if(typeof Array.isArray != 'function'){
 })();
 </code></pre>
 <hr>
-<p>第二个是将多维数组扁平化.</p>
+<h2>2.将多维数组扁平化.</h2>
 <pre><code>//二.将一个二维或多维数组扁平化
 (function () {
     //解法1:复杂的二维数组,包含数字和字符串
@@ -352,7 +354,7 @@ if(typeof Array.isArray != 'function'){
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">今天好好学习了一下数组的reduce方法,简单说该方法可实现数组内元素的累加,内部自执行循环遍历,传入一个函数作为回调,回调内常用的有累加,数组拼接等,语法形式为:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-text">arr.reduce(callback , [initialValue])</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">arr.reduce(callback , [initialValue])</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">1.统计一个字符串中相同字符出现的次数,</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">2.将多维数组扁平化.</span></a></li></ol>
                 </div>
             </div>
         </div>
