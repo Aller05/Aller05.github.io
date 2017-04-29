@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="闫乐在 Github 上的个人博客">
+    <meta name="keyword" content="Aller05,闫乐,前端,大前端,H5,全栈工程师,hexo,blog,github,北京">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="http://img.zcool.cn/sucaiori/49D4C592-1978-4E70-DAD3-0DD5A3B47775.png@700w_0e_1l.png">
+    <link rel="alternate" type="application/atom+xml" title="Aller" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        面向对象相关概念的整理｜Aller&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://www.yanle.ren/2017/03/18/2017-03-18面向对象相关概念的整理/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('http://omj9dkm9p.bkt.clouddn.com/%E5%B1%B1%E8%84%89.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Aller
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/about/">About me</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/demo/">demo</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="http://omj9dkm9p.bkt.clouddn.com/%E5%B1%B1%E8%84%89.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://omj9dkm9p.bkt.clouddn.com/%E5%B1%B1%E8%84%89.jpg');
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>面向对象相关概念的整理</h1>
+                    
+                    <span class="meta">
+                         作者 闫乐
+                        <span>
+                          日期 2017-03-18
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#js"
+                           title="js">js</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            面向对象相关概念的整理
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <hr>
+<h1>一.数据类型以及运算符的易错点</h1>
+<ol>
+<li>
+<p>typeof null ==&gt; Object 但是 null instanceof Object  却是 false
+typeof Function==&gt; function 结果并不是Object类型</p>
+</li>
+<li>
+<p>null 和 undefined区别
+当声明一个变量,但是未定义,就是未赋值,则为undefined;
+变量的值永远都不可能为null,除非我们手动的赋值为null.
+设置变量的值为null的目的是:告诉系统这个变量不再使用,可以把占用的空间回收了. null  == undefined ==&gt;true</p>
+</li>
+<li>
+<p>逻辑与 表达式1 &amp;&amp; 表达式2;   表达式1 ?  表达式2 : 表达式1;<br>
+逻辑或 表达式1 || 表达式2;   表达式1 ? 表达式1 : 表达式2;</p>
+</li>
+<li>
+<p>值类型与引用类型的区别:<br>
+值类型: 存储的是具体的数据,也可以理解为基本数据类型;<br>
+引用类型: 存储的是一个引用地址,该引用指向内存中一块空间,这块空间存储着具体的数据,也就是指向以一个值类型,引用类型都是复合数据类型,本质都是Object类型.<br>
+值类型的赋值: 就是把右边变量空间中存储的值具体的数据,复制一份放在左边变量的空间中,修改其中一个变量对另外一个变量没有影响.<br>
+引用类型赋值:就是把右边变量存储的那个地址复制一份放在左边变量空间中,修改了其中一个对象,对另外一个对象有影响.</p>
+<pre><code>var obj1 = {name:&quot;zs&quot;};
+var obj2 = obj1;
+obj1.name = &quot;lisi&quot;;
+console.log(obj2.name);//lisi
+
+//重新设置obj1的值
+obj1 = {age:22};   //该行代码切断了obj2和obj1的联系,
+因为引用类型存储的地址变了.而引用类型赋值的本质就是赋值的地址,
+console.log(obj2.age); //undefined
+</code></pre>
+<p>值类型数据作为函数的参数:内部修改了形参的值,对外部的实参没有影响;<br>
+引用类型数据作为函数的参数:内部修改了形参的值,对外部的实参有影响,因为他们指向的是内存中的同一块数据.</p>
+</li>
+<li>
+<p>对象的动态特性<br>
+对象: 键-值对的集合(key-value)<br>
+属性:在对象内部声明的变量<br>
+方法:在对象内部定义的函数<br>
+操作对象属性和方法可以用 点语法 和 中括号[];<br>
+[]语法修改属性和添加方法时,key必须是字符串需要加&quot;&quot;; obj[ &quot;name&quot; ] = &quot;zhangsan&quot;;   有时候name不加引号也可用,是因为name也是window的name<br>
+什么情况必须使用中括号修改属性?obj.backgroundColor = &quot;red&quot;;遵循驼峰命名法,如果属性名必须设置为background color这种类型就必须使用中括号obj[&quot;background color&quot;] = &quot;red&quot;;
+console.log(obj);</p>
+</li>
+</ol>
+<ol start="6">
+<li>
+<p>删除对象的属性</p>
+<pre><code>//关键字 delete
+//语法: delete 对象.属性
+delete obj[&quot;name&quot;];//中括号或者点语法都可以
+console.log(obj[&quot;name&quot;]);   //undefined  
+</code></pre>
+<p>作用:<br>
+1.删除对象中的属性;<br>
+2.删除没有使用var关键字声明的全局变量(原因是delect只能删除属性,没有var声明的全局变量相当于是window的属性)<br>
+注意点:<br>
+1.返回值 布尔类型的值(我们可以通过该值来判断是否删除成功)<br>
+2.使用var关键字声明的全局变量无法被删除,但是却可以删除直接定义在window上面的属性<br>
+3.删除对象中不存在的属性没有任何变化,但是返回值为true</p>
+</li>
+<li>
+<p>in关键字<br>
+1.用于遍历<br>
+属性名(字符串) in  对象,用于查找对象中是否存在某属性.(查找时实例对象如果不存在,还会去原型对象上查找);易错题:var arr = [1,2,3,4,5] console.log( 5 in arr ) ?? =&gt;false,因为5是属性,数组中的属性就是索引值.</p>
+</li>
+<li>
+<p>循环结构和条件结构<br>
+循环结构: for循环,while循环,do...while(至少会执行一次),for...in(主要用于遍历对象)<br>
+条件结构: if...else ,  switch..case;</p>
+</li>
+<li>
+<p>异常处理:</p>
+<pre><code>try{
+可能出错的代码
+}
+catch(e){
+出错了就执行这个代码块
+}
+finally{
+不管是否出错都会执行这里的代码,扫尾工作(释放资源)
+}
+</code></pre>
+</li>
+<li>
+<p>面向对象相关概念</p>
+</li>
+<li>
+<pre><code>面向对象和面向过程,都是一种解决问题的思路(思想)
+面向过程在解决问题时,关注的需要的一个接着一个的过程(步骤)
+面向对象在解决问题时,关注的是解决问题所需要的对象.
+面向对象本身是对面向过程的封装.
+面向对象最重要的是找到对象(内置对象 + 自己创建)
+为什么要面向对象:高内聚和低耦合,复用性更好,更方便.减少代码冗余.
+创建对象几种方法:字面量方式,内置构造函数方式,简单工厂函数方式,自定义构造函数方式.
+</code></pre>
+</li>
+</ol>
+<h1>二.自定义构造函数,原型对象</h1>
+<ol>
+<li>
+<p>自定义构造函数</p>
+<pre><code>构造函数首字母需大写,内部会自动创建空对象并且赋值给this,
+构造函数内如果没有显示的return,默认会把新创建的对象返回.
+如果显示的执行了return语句:
+1.返回的是值类型,那么直接忽略该返回,把新创建的对象返回.
+2.返回的是引用类型的数据,则会覆盖掉新创建的对象,返回数据值.
+</code></pre>
+</li>
+<li>
+<p>构造器属性 constructor<br>
+所有的对象都有一个构造器属性,指向创建对象的构造函数,其实实例化出来的对象并没有,但是根据原型链,会查找到原型对象的constructor属性</p>
+</li>
+<li>
+<p>构造函数的原型对象<br>
+在使用构造函数创建对象时,默认会生成一个与构造函数相关联的对象,就是原型对象,默认情况下,该对象是一个空的对象.使用构造函数创建的对象,能够自动拥有和使用原型对象中所有的属性和方法.</p>
+</li>
+<li>
+<p>原型对象的访问,删除,修改,重写</p>
+<pre><code>访问方式1 构造函数.prototype
+访问方式2 对象.__proto__(不推荐使用)
+delete 对象.属性 通过该方法可删除原型对象中的属性.
+对象.prototype.name=##,向原型对象中添加或修改属性
+对象.prototype = ,字面量方式重写原型对象,通常建议先重写,再实例化对象,否则重写前实例化的对象指向的原型对象和重写后的不一样,记得修正constructor属性使其指向原构造函数.
+当原型对象的某个属性以对象的形式存在时,通过实例修改该属性下的属性,则会直接修改原型对象内的该属性,因为该属性在原型对象内是引用类型.  
+</code></pre>
+</li>
+</ol>
+<p>如下例:</p>
+<pre><code>	function Person(){};
+	Person.prototype.car = {type:&quot;火车&quot;,price:&quot;$ 44444.44&quot;};
+	var p1 = new Person();
+	var p2 = new Person();
+	//如果原型对象的属性是引用类型的
+	p1.car.type = &quot;飞船&quot;; //先读后写,先找到car,在找到type修改
+	console.log(p1.car.type);   //飞船
+	console.log(p2.car.type);   //飞船
+	
+	//额外的补充
+	p1.car = {type:&quot;火箭&quot;};
+	console.log(p1.car.type);   //火箭
+	console.log(p2.car.type);   //飞船
+	
+	p1.car = {};
+	console.log(p1.car.type);   //undefined
+	console.log(p2.car.type);   //飞船
+</code></pre>
+<ol start="5">
+<li>
+<p><strong>proto</strong> 属性<br>
+如果是使用构造函数创建对象,那么在创建的对象中,有一个__proto__指针指向其构造函数对象的原型对象.但是正式开发中,不要使用该属性,因为该属性不是ECMA标准里的,是部分浏览器厂商为了方便开发者开发和调试而提供的,非标准的.</p>
+</li>
+<li>
+<p>常用API</p>
+<pre><code>1.对象 instanceof 构造函数  检查某个对象是否为指定构造函数创建
+2.属性名(字符串) in 对象  用于查找对象中是否存在某属性(实例属性 + 原型属性).
+3.对象.hasOwnProperty( &quot;属性&quot; )  检查对象中是否存在指定属性(实例属性)
+判断某个属性是否是原型属性,并且仅仅只是原型属性:
+a.in关键字判断为true,就是说实例属性或者原型属性存在
+b.hasOwnProperty 并且判断为不是实例属性,再取反.
+通过逻辑与加以判断即可
+4.对象.isPrototypeOf(指定对象)  判断某个对象是否是指定对象的原型对象.
+</code></pre>
+</li>
+</ol>
+<h1>三 继承的实现:</h1>
+<p>继承关系中: 大类,小类,小小类--&gt;超类型,父类型,子类型.</p>
+<ol>
+<li>
+<p>继承的实现方式及问题:<br>
+a:拷贝属性:如果属性是引用类型,那么子对象和父对象共享一块数据,修改了某个对象对另一个对象有影响<br>
+b:原型式继承:构造器属性默认指向父构造函数,如果修正为子构造函数,原父类型原型对象指向也将改变,并且该方式无法获得实例属性和方法,只能继承(获得),父构造函数原型对象的属性和方法.  c:原型链继承:无法对父构造函数传参,继承过来的实例属性会作为原型对象属性,被多个创建出来的对象共享.<br>
+d:借用构造函数继承(call):父构造函数.call(this,参数1,参数2,...),问题是无法继承父构造函数原型对象的属性和方法.<br>
+e:组合继承 借用构造函数继承获得实例属性,原型链继承获得原型对象属性和方法.<br>
+f:Object.create,创建对象,并设置原型对象,ES5推出,兼容性问题.<br>
+g:完全拷贝,深拷贝:完美方案</p>
+</li>
+<li>
+<p>原型链相关:<br>
+原型链的顶端是 Object.prototype, Object.prototype本身也是一个对象,因此也有原型对象, Object.prototype.<strong>proto</strong> 是 null.<br>
+原型链中对象属性的搜索规则:就近原则<br>
+实例属性-&gt;原型对象-&gt;原型对象的原型对象-&gt;....,直到搜索到Object.prototype为止.<br>
+原型链继承:</p>
+<pre><code>提供一个父构造函数和子构造函数,设置子构造函数的原型对象为福构造函数的一个实例对象,在这个实例对象上设置属性和方法.
+原型链继承注意事项:
+①设置完原型链后需要修正构造器属性的指向-&gt;构造函数.prototype.constructor = 构造函数.
+②设置完原型继承之后再为原型对象添加属性和方法
+③只能通过对象的动态特性设置原型对象的属性和方法,不要使用字面量的方式.
+原型链继承的问题:无法对父构造函数传递参数,继承过来的实例属性会成为当前对象的原型对象属性,会被创建出来的多个对象所共享.
+</code></pre>
+</li>
+<li>
+<p>call和apply:借用其他对象的方法.</p>
+<pre><code>被借用的对象.方法.call(调用方法的真正的对象,参数1,参数2...)
+被借用的对象.方法.apply(调用方法的真正对象,[参数1,参数2,...])
+call和apply作用一样,都可以用来借用方法,传入参数的区别:
+第一个参数是调用该方法的真正对象(也就是被借用对象方法函数内部this绑定的对象),
+后面的参数,call是参数列表,apply是数组形式的参数
+</code></pre>
+</li>
+<li>
+<p>this的指向,总是指向一个对象.</p>
+<pre><code>使用this的好处? 函数中可以节省一个参数(代码会灵活)
+①作为对象的方法来调用   this-&gt;当前的对象
+②作为普通函数调用  this-&gt;window(非严格模式下指向window),这里会造成this丢失
+③作为构造函数和new使用  this-&gt;构造函数内新创建的对象
+④被call或者apply调用(函数上下文调用)  this-&gt;第一个参数
+</code></pre>
+</li>
+<li>
+<p>判断某个对象是否是一个数组</p>
+<pre><code>Array.isArray(对象),该方法是ES5推出的.如果不存在需要自己写一个方法,则需要用到toString
+对象.toString()方法,
+调用为对象的话,返回值为[object object] ,
+如果是数组或者字符串的话,则需要 Object.prototype.toString.call(对象) 使用这种方式调用,因为toString()是 Object.prototype的方法.
+在使用对象a作为对象b属性的时候,调用b[a]时,a会自动调用该对象的toString方法.
+</code></pre>
+</li>
+<li>
+<p>终极继承方案:借用构造函数及深拷贝原型对象方式</p>
+<pre><code>//处理isArray兼容性问题,该方法是ES5才推出的
+if(typeof Array.isArray != &quot;function&quot;){
+    Array.isArray = function(obj){
+        return Object.prototype.toString.call(obj) == &quot;[object Array]&quot;;
+    }
+}
+//深拷贝,第一个参数为空对象进行拷贝的,第二个参数为被拷贝的.
+function deepCopy(obj1,obj2){
+    //初始化,看是否有值.
+    obj1 = obj1 || {};
+    for(var k in obj2){
+        //最终传入的参数为原型对象,只复制原型对象的实例属性!
+        if(obj2.hasOwnProperty(k)){
+            //判断是引用类型还是值类型
+            if(typeof obj2[k] == &quot;object&quot;){
+                //如果是引用类型,判断是数组还是对象
+                obj1[k] = Array.isArray(obj2[k]) ? [] : {};
+                //再次深复制
+                deepCopy(obj1[k],obj2[k]);
+            }else{//值类型直接复制
+                obj1[k] = obj2[k]
+            }
+        }
+    }
+}
+
+function Person(name,age){
+    this.name = name;
+    this.age = age;
+}
+Person.prototype.des = &quot;des&quot;;
+Person.prototype.show = function(){
+    console.log(this.des);
+};
+
+function Boy(name,age){
+    //借用构造函数方法继承父类型的实例属性和方法
+    Person.call(this,name,age);
+}
+//深拷贝继承父类型的原型对象属性和方法
+deepCopy(Boy.prototype,Person.prototype);
+
+var p1 = new Person(&quot;小明&quot;,18);
+var boy = new Boy(&quot;小敏&quot;,22);
+console.log(p1.constructor); //Person
+console.log(boy.constructor); //Boy
+</code></pre>
+</li>
+</ol>
+<h1>四.基本包装类型</h1>
+<p>Boolean Number String　　
+上述类型和其他引用类型相似,同事也具备基本类型相应的特殊行为,每当我们读取一个基本类型值的时候,后台就会创建一对象的基本包装类型对象,从而让我们能够调用一些方法来操作数据,使用完毕后内部会销毁该对象.</p>
+<p>注意点:</p>
+<pre><code>对象 : 通过new调用构造函数创建出来是对象.
+基本数据类型 : 直接通过字面量方式赋值或者通过省略new关键字调用构造函数方式创建的都是基本数据类型值．
+例如: var str1 = new String('hello')   //对象
+         var str1 = 'hello'    //字符串
+         var str1 = String('hello')   //字符串
+</code></pre>
+<p>相等问题:　　
+对象是引用类型,字符串是值类型.值类型判断相等==&gt;值相等；引用类型判断相等==&gt;值相等且引用相等</p>
+<h1>五.静态成员和实例成员 || 私有变量和函数 ,特权方法</h1>
+<p>实例成员:由构造函数创建出来的实例对象能直接访问的属性和方法,包括对象本身以及原型中的所有属性和方法.<br>
+静态成员:由构造函数直接访问到的属性和方法,间接访问到的(原型对象里的不算).<br>
+私有变量和函数: 任何在函数中声明的变量和函数(在函数内var声明的变量,只属于那个函数,外部无法访问),都可以认为是私有变量和函数.<br>
+特权方法:能够访问函数内私有变量和函数的方法称为特权方法</p>
+<h1>六.Object相关</h1>
+<ol>
+<li>
+<p>JS中所有的对象都基于object,都继承自object,都可以使用Object.prototype的属性和方法</p>
+</li>
+<li>
+<p>Object.prototype详解</p>
+<pre><code>01.constructor 指向该对象的构造函数
+02.hasOwnProperty 检测对象中是否存在某个实例属性
+03.isPrototypeOf 判断某个对象是否是指定对象的原型对象(会判断整条原型链);
+04.propertyIsEnumerable 判断该属性是否可枚举,如果可以,那么使用for..in循环可以打印出来.
+05.toString 返回一个对当前对象的字符串描述信息,并非一定是该对象的字符串形式.
+    ①object类型的对象,返回 [object object]
+    ②其他对象类型如函数 | 数组,返回对应的字符串形式
+    ③Number类型,可以传递参数(进制),不传递参数:默认是十进制
+06.toLocaleString 大部分情况下等价于toString方法,特殊情况下会做本地化处理.
+07.valueOf 返回对应的值
+    ①基本包装类型( String Number Boolean),返回对应的基本类型的值
+    ②object类型的,返回this(该对象本身);
+    ③date(日期类),返回时间戳.
+</code></pre>
+</li>
+<li>
+<p>Object静态成员</p>
+<pre><code>01. Object.apply | Object.call 借用其他对象的函数
+02. Object.arguments 函数内部的一个隐藏参数,主要用来接收实参, 函数内部调用 typeof arguments,返回对象,实际上是一个类似于数组的结构.
+03. Object.assign 拷贝对象的属性,可传入多个对象,一次性复制多个对象的属性.
+04. Object.bind 绑定处理 (和call apply很像)
+05. Object.caller 某个函数的调用函数,返回的是一个函数. 如果是在全局作用域中调用该方法,打印出来的是 null, 不是window;
+06. Object.constructor 构造器属性,指向该对象的构造函数
+07. Object.create 创建对象,并设置原型对象
+08. Object.getOwnPropertyDescriptor 获得对象中某个实例属性的描述信息(是否可以配置/枚举/值/是否可重写),具体描述信息如下:
+configurable : true 是否可以配置(能不能删除属性或者是修改这个配置本身);
+enumerable : true 是否可以枚举
+value : &quot;zhangsan&quot; 属性对应的值
+writable : true 是否是可重写的
+09. Object.defineProperty 用来设置属性的描述信息(修改已有属性|新增属性);001 修改已有属性,默认情况下三个值 (三个值为:①是否可配置②是否可枚举③是否可重写)都是true; 002新增加属性,默认情况下,这三个属性的值都是false;
+10. Object.getOwnPropertyNames 获得所有的实例属性(名称),返回值是一个数组,不包含原型属性;
+11. Object.getPrototypeOf 获得某个对象的原型对象.
+12. Object.keys 获得对象的key,不包含原型属性.
+13. Object.preventExtensions || Object.isExtensible  禁止对象扩展,默认情况下对象可以动态的增加属性,如果设置禁止扩展,将无法增加属性.
+14. Object.seal 密封对象,禁止删除对象的属性,禁止修改对象的配置信息configurable,禁止扩展
+15. Object.freeze 冻结对象,不能删除属性,不能扩展增加属性,也不能修改属性.
+</code></pre>
+</li>
+</ol>
+<h1>七.Object相关</h1>
+<ol>
+<li>
+<p>new Function 创建函数</p>
+<pre><code>①一个参数也没有,那么创建的是一个空函数
+②有一个参数,这个参数作为新创建出来的函数的函数体.
+③有多个参数,最后一个参数是新创建的函数的函数体,其他的参数是形参列表(参数都为字符串形式,如果出现字符串内嵌套字符串,可在双引号前加转阴符号\)
+//sum a,b 计算结果
+var func = new Function(&quot;a&quot;,&quot;b&quot;,&quot; console.log(a + b);&quot;);
+func(1,20);//21
+</code></pre>
+</li>
+<li>
+<p>arguments和length</p>
+<pre><code>①arguments:接收实参,该参数是一个类似于数组的结构(可以像数组一样遍历,还可以使用下标来访问数据),但是并不是数组.
+01.函数调用的时,会把实参的值赋值给形参,而且会使用arguments来接收实参.
+02.如果实参的个数超过形参的个数,那么可以通过arguments来获取超出的数据.
+03.如果实参的个数小于形参的个数,那么不足的全部设置为undefined;
+
+②length属性
+01.arguments.length 实参长度(个数);函数内部调用Object.prototype.toString.call(arguments),返回值是[object Arguments]
+02.函数名.length 形参的长度(个数);  
+</code></pre>
+</li>
+<li>
+<p>callee和 caller<br>
+caller:调用函数的函数,在全局作用域中调用,指向null;<br>
+callee:函数自身,如果在函数内调用arguments.callee,则返回函数自身.<br>
+callee主要用途是递归.递归特点:01.自己调用自己;  02.要有退出条件.</p>
+<pre><code>console.log((function (n) {
+    if (n == 1) {
+        return 1;
+    }
+    //如果函数的匿名函数，那么要在函数内部调用自身，可以使用arguments.callee
+    return arguments.callee(n - 1) + n;
+})(100));  
+</code></pre>
+</li>
+<li>
+<p>Function应用:数组去重和求最大值</p>
+<pre><code>var func = new Function(`
+     var arr = [];
+        for (var i = 0; i &lt; arguments.length; i++) {
+            //去arr数组中查找指定的元素是否存在，如果不存在那么就添加
+            if (arr.indexOf(arguments[i]) == -1)
+            {
+                arr.push(arguments[i])
+            }
+        }
+        return arr;
+    `);
+console.log(func(1, 2, 3, 4, 5, 3, 4, 5, 3, 4, 5, 7, 8, 2, 3, 48, 8, 9));   
+
+function getMax(){
+    var maxNum = arguments[0];
+    for (var i = 0; i &lt; arguments.length; i++) {
+        if(maxNum &lt; arguments[i]){
+            maxNum = arguments[i];
+        }
+    }
+    return maxNum;
+}
+console.log(getMax(1, 20, 30, 21,220,44,55,123));  
+</code></pre>
+</li>
+<li>
+<p>Json数据转化为对象,以及对象转化为json数据</p>
+<pre><code>//把JSON数据转换为对象
+var obj = JSON.parse(&quot;{\&quot;name\&quot;:\&quot;默默的备胎\&quot;}&quot;);
+console.log(obj);
+//把对象转换为json数据
+var str = JSON.stringify(obj);
+console.log(str);  
+</code></pre>
+</li>
+<li>
+<p>Object和Function的关系<br>
+①Function作为构造函数,其原型对象为空的函数,空的函数的原型对象为Object.prototype;
+Function作为对象,构造函数是自身.<br>
+②Object作为构造函数,原型对象是Object.prototype;Object作为对象,构造函数是Function;</p>
+<p>总结来说,Object构造函数是通过Function构造函数实例化出来的;<br>
+Function构造函数时通过Function构造函数实例化出来的.<br>
+所有函数的默认原型都是Object的实例,因此默认原型都会包含一个内部指针,指向Object.prototype;</p>
+</li>
+</ol>
+<p><img src="http://omj9dkm9p.bkt.clouddn.com/figure1.jpg" alt=""></p>
+<h1>八.严格模式</h1>
+<p>在严格模式下,会做更严格的检查,以前在非严格模式下不会报错或者可以使用的一些语句,在严格模式下使用会报错或者抛出异常.<br>
+建议:推荐以后全部使用严格模式;严格模式本身做了向后兼容,所以不支持严格模式的浏览器,会直接忽略.</p>
+<ol>
+<li>
+<p>严格模式设置 : 在当前作用域最顶端添加 &quot;use strict&quot;;<br>
+严格模式设置的书写格式:双引号或者单引号都可以,字符串后面的分号可以省略,所有字符串必须小写,这个字符串只能拥有10个字符(包括空格)</p>
+</li>
+<li>
+<p>严格模式的作用域:<br>
+①script标签内,只对当前的标签有影响,仅仅设置当前的标签为严格模式<br>
+②函数内,那么只对当前的函数作用域有效</p>
+</li>
+<li>
+<p>严格模式注意点:</p>
+<pre><code>01.所有的变量都必须要使用var声明;
+02.不能使用delete关键字来删除全局变量;
+03.函数的形参列表中不能出现同名的参数;
+04.在对象内部不能出现相同的属性;
+05.禁止使用八进制;
+06.禁止使用with语句;
+07.禁止使用evel和arguments作为标识符(变量的名称);
+08.在函数调用的时候,修正了函数内部this的指向;
+以普通函数调用函数时,非严格模式this指向window,严格模式指向undefined;使用call方  
+ 法时,严格模式下也是由第一个参数决定,如果没有传递参数那么是undefined,如果传入值是null,那么this就指向null;
+09.禁止使用callee | caller;
+10.arguments在函数内部的表现和非严格模式不同;
+在非严格模式下,arguments和形参共享一份数据,重新设置了形参的值,arguments也会发生改变.
+在严格模式下,arguments和形参是独立的,没有关系,修改了形参的值对argument没有影响.
+11.在if语句中不能声明函数;
+</code></pre>
+</li>
+</ol>
+<h1>九.作用域</h1>
+<ol>
+<li>
+<p>作用域:某个变量起作用的范围</p>
+</li>
+<li>
+<p>在js中没有块级作用域(try..catch..是个特例),可以使用即时调用函数模仿块级作用域</p>
+</li>
+<li>
+<p>在js中函数是唯一一个可以创建作用域的对象</p>
+</li>
+<li>
+<p>js属于词法作用域,在变量声明的时候,它的作用域就已经确定了,词法作用域的访问规则:现在当前作用域中查找,如果没有就到上一级作用域中查找,如果没有就以此类推,直到全局作用域.</p>
+</li>
+<li>
+<p>变量和函数提升:</p>
+<pre><code>js解析代码时,有一个预解析的过程,就是将所有var声明的变量和函数声明的代码块提升至当前作用域的顶端.
+注意点:
+01.同名函数的提升:都会提升,但是后面的会覆盖前面的;
+02.变量和函数同名,在进行提升时,只提升函数,忽略变量的提升;
+03.函数表达式创建的函数,提升时只会对var声明的变量提升;
+04.变量的提升是分作用域的;  
+</code></pre>
+</li>
+<li>
+<p>作用域链</p>
+<pre><code>js中函数可以创建作用域,
+函数中又可以创建函数(又开辟新的作用域),
+函数内部的作用域可以访问外部的作用域,
+如果有多个函数嵌套,就会构成链式访问结构,也就是作用域链
+作用域链搜索原则:就近原则,有内层到外层,直到0级作用域,
+注意:函数内部的作用域可以访问外部的作用域,但是外部的作用域却不能访问内部的作用域;
+注意:如果内层作用域中声明了和外层作用域中同名的变量,那么这个变量是不会把外层的同名变量覆盖的.
+</code></pre>
+</li>
+</ol>
+<p>#十. 闭包</p>
+<ol>
+<li>
+<p>闭包:就是提供一种间接访问封闭空间中私有数据的方法.</p>
+</li>
+<li>
+<p>基本实现思路:
+a.在外部函数中创建函数(内部函数),在该函数(内部函数)中操作外部函数中的变量;
+b.在外部函数中,把内部函数作为返回值返回;
+c.调用外部函数,并接收其返回值(是一个函数);
+d.调用接收到返回值(内部函数),来间接的操作外部函数中的变量.</p>
+</li>
+<li>
+<p>基本写法:
+闭包的基本写法</p>
+<pre><code> function f1(){
+ var age = 20;
+ return {
+     getAge:function(){
+         return age;
+     },
+     setAge:function(ageValue){
+         //校验处理
+         if (ageValue &lt;0)
+         {
+             ageValue = 0;
+         }
+         //其他的处理(异常检测)
+         age = ageValue;
+     }
+ }
+var func = f1();
+func.setAge(22);
+console.log(func.getAge());//22
+</code></pre>
+</li>
+<li>
+<p>闭包的作用:</p>
+<pre><code>01.访问函数内部的变量只能通过指定接口
+02.对变量的修改设置操作更安全,我们可以在设置数据之前对数据进行校验;
+03.延长了变量的生命周期.
+</code></pre>
+</li>
+<li>
+<p>进程和线程问题</p>
+<pre><code>进程指的是系统中正在运行的一个应用程序.
+线程:一个进程中可以有一个或多个线程,线程是CPU调度的最小单位,是真正执行任务的.
+多线程:一个进程中又多条线程,多条线程之间并发的执行多个不同的任务.
+单线程:一个进程中只有一条线程,即同一时间只能执行一个操作,只能干一件事情.
+javascript是单线程的,js线程中主要处理三块任务:
+01.渲染任务; 02.js中的代码的主要任务; 03.js中的事件型任务(如定时器,点击事件等)
+</code></pre>
+</li>
+<li>
+<p>通过闭包解决定时器函数的问题
+将整个定时器用即时调用函数包裹起来传入i值,或者只包定时器里的回调函数(需要return)</p>
+<pre><code>for (var i = 0; i &lt;10; i++) {
+ (function(j){
+     setTimeout(function(){
+         console.log(j);
+     },0);
+ })(i);
+
+ setTimeout((function(j){
+     return function (){
+         console.log(j);
+     }
+ })(i),0);
+}
+</code></pre>
+</li>
+</ol>
+<p>#十一函数的补充</p>
+<ol>
+<li>
+<p>函数的两个特征:01.函数本质上是对象; 02.函数可以创建作用域;</p>
+</li>
+<li>
+<p>函数回调:把对象的方法作为函数的参数进行传递,也就是当做回调函数,会导致this丢失问题,因为函数的调用方式发生了改变.</p>
+</li>
+<li>
+<p>惰性函数
+定义:函数的真正内容在调用了一次之后才确定,能够实现自我更新.</p>
+<p>function foo(){
+console.log(&quot;foo!&quot;);
+//主要处理初始化操作......</p>
+<pre><code> //实现函数的自我更新
+ foo = function (){
+     console.log(&quot;foo! foo!&quot;);
+ }
+</code></pre>
+<p>}
+foo();  //foo!
+foo();  //foo!foo!
+foo();  //foo!foo!
+缺点:<br>
+01.如果在函数上添加了属性,那么进行自我更新之后这个属性会丢失;<br>
+02.如果把函数赋值给其他的变量,那么我们以变量的方式来调用,那么将会永远执行旧的函数体,不会自我更新.</p>
+</li>
+<li>
+<p>即时对象初始化:
+基本写法:({init:function(){}}).init();</p>
+</li>
+</ol>
+
+                <hr>
+                
+                <!-- 多说 Share start -->
+                <div class="ds-share"
+                     style="text-align: right"
+                     data-thread-key="2017/03/18/2017-03-18面向对象相关概念的整理/"
+                     data-title="面向对象相关概念的整理"
+                     data-url="https://www.yanle.ren/2017/03/18/2017-03-18面向对象相关概念的整理/"
+                     data-images=""
+                     data-content="
+一.数据类型以及运算符的易错点
+
+
+typeof null ==&gt; Object 但是... | Aller&#39;s blog ">
+                    <div class="ds-share-inline">
+                        <ul class="ds-share-icons-16">
+                            <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
+                            <li><a class="ds-wechat flat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+                            <li><a class="ds-weibo flat" href="javascript:void(0);" data-service="weibo">微博</a></li>
+                            <li><a class="ds-douban flat" href="javascript:void(0);" data-service="douban">豆瓣</a></li>
+                        </ul>
+                        <div class="ds-share-icons-more">
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/03/26/2017-03-26数组的reduce方法两个使用实例/" data-toggle="tooltip" data-placement="top"
+                           title="利用数组的reduce方法优化代码">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/03/14/2017-03-14粒子线库/" data-toggle="tooltip" data-placement="top"
+                           title="简单易懂的Canvas粒子线效果">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                         data-thread-key="2017/03/18/2017-03-18面向对象相关概念的整理/"
+                         data-title="面向对象相关概念的整理"
+                         data-url="https://www.yanle.ren/2017/03/18/2017-03-18面向对象相关概念的整理/">
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#undefined"><span class="toc-text">一.数据类型以及运算符的易错点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#undefined"><span class="toc-text">二.自定义构造函数,原型对象</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#undefined"><span class="toc-text">三 继承的实现:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#undefined"><span class="toc-text">四.基本包装类型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#undefined"><span class="toc-text">五.静态成员和实例成员 || 私有变量和函数 ,特权方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#undefined"><span class="toc-text">六.Object相关</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#undefined"><span class="toc-text">七.Object相关</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#undefined"><span class="toc-text">八.严格模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#undefined"><span class="toc-text">九.作用域</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#js"
+                           title="js">js</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'Reset';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user};
+    (function () {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';
+        ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/Aller05">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Aller05">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Aller 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- Canvas - ParticleLine  -->
+<script src="/js/particleLineByCanvas.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://www.yanle.ren/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="http://img.zcool.cn/sucaiori/03149148-43DA-A3CD-B4A7-E426E8D3DA7F.png@700w_0e_1l.png">
+</body>
+
+</html>
