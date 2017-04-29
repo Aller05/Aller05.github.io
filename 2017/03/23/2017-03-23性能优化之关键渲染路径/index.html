@@ -198,6 +198,84 @@
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
                 <hr>
+<h1>一.浏览器渲染原理</h1>
+<p><img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%961.png" alt=""></p>
+<h2>01.构建DOM树</h2>
+<p>增量构建,无需等待HTML加载完毕,就可以开始解析DOM.<br>
+通过开发者工具的Performance可以录制浏览器的渲染过程,渲染时第一要禁用缓存,在Network选项选中Disable cache;第二关闭Chrome扩展或者使用隐身模式; 第三模拟真实网络情况,就是禁用缓存后面的下拉菜单;<br>
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%962.png" alt="">
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%968.png" alt=""></p>
+<p>构建过程:将字符识别为token,再转化为DOM树</p>
+<h2>02.构建CSSOM,CSS对象模型</h2>
+<p><img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%969.png" alt=""></p>
+<p>匹配选择器时是从后往前匹配.</p>
+<h2>03.RenderTree:渲染树</h2>
+<p><img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%963.png" alt="">
+渲染树其实和DOM树很相似,但是有个别节点不见了,并且多了样式,像head.title这些是不需要渲染的,也就是不需要显示在页面中,而span是因为样式中设置了display:none;但是visibility:hidden的节点,依然会被添加到渲染树.因为占有空间.
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%964.png" alt="">
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%967.png" alt=""></p>
+<h2>04.Layout,往页面上画东西,就像画画时画的线框图.</h2>
+<p><img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%965.png" alt="">
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%966.png" alt="">
+Layout占用性能较大,平时做动画平移,如果改变它定位的left值,会不断的触发Layout,所以做性能优化时,比如平移元素,尽量不用会触发Layout的属性,可以用transform(硬件加速,是在GPU完成的),而Layout是在CPU完成的.<br>
+开启硬件加速方式:设置transform:translateZ(0)或者transform:translate3d(0,0,0);
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9610.png" alt=""></p>
+<h2>05.Paint:填充所有细节</h2>
+<p><img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9611.png" alt=""></p>
+<h1>二.资源对渲染的影响</h1>
+<p><strong>浏览器渲染页面的时间:加载完部分DOM和全部的CSSOM之后,就可以开始一部分一部分的渲染页面了.
+绿色条代表第一次渲染,蓝色条代表html加载完毕,红色代表加载完成CSS文档</strong></p>
+<h2>01.CSS</h2>
+<p><img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9612.png" alt=""></p>
+<p>我们可以针对不同媒体环境拆分CSS文件,并为link标签添加媒体查询,避免为了加载非关键CSS资源,而阻塞初次渲染.
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9613.png" alt="">
+通过DOM插入link标签,则不会阻塞初次渲染,单前提是非关键资源.
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9614.png" alt="">
+通过preload语法实现异步加载非关键资源的CSS;
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9615.png" alt="">
+preload有兼容性问题,不过有polyfill,叫做: loadCSS.js,
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9616.png" alt="">
+总结:核心要点是想办法不让非关键资源阻塞初次渲染.
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9617.png" alt=""></p>
+<h2>02.JS</h2>
+<p>通过外链或者本地引入JS均会阻塞HTML parser(解析);会阻塞出现在脚本后面的HTML标记的渲染.
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9618.png" alt="">
+并且 CSS会阻塞JS,原因是JS有可能会修改CSSOM,所以需要等待CSSOM构建完成后,再执行JS加载.
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9619.png" alt="">
+如果引入多个JS脚本,虽然JS会阻塞HTML parser,是阻断DOM树的创建,但是不会阻塞加载,所以即使引入多个JS脚本,也是同时加载的,但是解析顺序是由上至下,
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9620.png" alt="">
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9621.png" alt="">
+因为JS脚本会阻塞HTML parser,也就是阻塞DOM树的创建,相应的就会影响页面内容的渲染.所以非关键渲染资源(首次渲染需要的资源)需要延迟执行,来提高性能,方式有:</p>
+<p>①.放到文档底部,延迟JS执行.
+②.使用defer属性,如下图
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9622.png" alt="">
+使用defer方法延迟脚本,脚本引入代码仍然放在head中,可提早脚本资源加载,原因是HTML parser是增量解析的.
+③.使用async异步加载脚本,则该脚本不会再阻塞HTML parser,也不会被CSS阻塞,只要脚本加载完成,就可以执行,并且不会严格按照脚本在HTML文档中出现的顺序执行.不过该方法只适用于无依赖的独立资源
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9623.png" alt="">
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9624.png" alt="">
+注意点:如果使用async,如果脚本需要对DOM元素进行操作,但是该DOM还没有加载完成,这时则需要在脚本文件中调用DOMContentLoaded事件;并且使用async则不会被CSS阻塞,如果脚本内有改变CSS的,需要注意.</p>
+<p>总结:
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9625.png" alt=""></p>
+<h2>0.3font</h2>
+<p><img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9626.png" alt=""></p>
+<p>解决方式:给加载字体的link标签添加perload来实现异步加载,从而一开始渲染显示默认字体,当字体文件下载完成执行新的字体,但是执行新字体的过程中会出现短暂的白屏,不过有相应的框架解决这些问题.</p>
+<h2>04.img==&gt;不会阻塞首次渲染!</h2>
+<h1>三.优化关键渲染路径</h1>
+<p><strong>优化目标是将以下指标压缩到最低: 关键资源数,关键资源体积,关键资源网络来回数.</strong>
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9627.png" alt="">
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9628.png" alt="">
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9629.png" alt="">
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9630.png" alt="">
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9631.png" alt=""></p>
+<p>可以通过内联JS减少关键资源网络来回数,但是切勿盲目使用内联资源,因为现在的网站大部分资源都是被多个页面共享的,所以使用内联会导致无法充分利用缓存,导致重复下载.</p>
+<p>当启用HTTP2时,会减少网络来回数时间,相应HTML文档之后,就主动推送文档依赖的资源缓存到浏览器中.所以当文档发现资源需要加载时,这时资源已经在缓存中.<br>
+但是HTTP2还没有普及.
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9632.png" alt="">
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9633.png" alt="">
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9634.png" alt="">
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9635.png" alt="">
+<img src="http://omj9dkm9p.bkt.clouddn.com/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9636.png" alt=""></p>
+<p>86109822</p>
 <hr>
 <p>2017/3/23 22:58:50</p>
 
@@ -211,9 +289,10 @@
                      data-url="https://www.yanle.ren/2017/03/23/2017-03-23性能优化之关键渲染路径/"
                      data-images="https://www.yanle.ren/2017/03/23/2017-03-23性能优化之关键渲染路径/http://omj9dkm9p.bkt.clouddn.com/%E5%B1%B1%E8%84%89%E4%BA%91%E5%B1%82.jpg?imageslim"
                      data-content="
+一.浏览器渲染原理
 
-2017/3/23 22:58:50
- | Aller&#39;s blog ">
+01.构建DOM树
+增量构建,无需等待HTML加载完毕,就可以开始解析... | Aller&#39;s blog ">
                     <div class="ds-share-inline">
                         <ul class="ds-share-icons-16">
                             <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
@@ -262,7 +341,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#undefined"><span class="toc-text">一.浏览器渲染原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">01.构建DOM树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">02.构建CSSOM,CSS对象模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">03.RenderTree:渲染树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">04.Layout,往页面上画东西,就像画画时画的线框图.</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">05.Paint:填充所有细节</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#undefined"><span class="toc-text">二.资源对渲染的影响</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">01.CSS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">02.JS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">0.3font</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">04.img==>不会阻塞首次渲染!</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#undefined"><span class="toc-text">三.优化关键渲染路径</span></a></li></ol>
                 </div>
             </div>
         </div>
