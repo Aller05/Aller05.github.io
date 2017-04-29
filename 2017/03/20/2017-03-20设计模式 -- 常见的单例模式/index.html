@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        利用数组的reduce方法优化代码｜Aller&#39;s blog
+        设计模式 -- 常见的单例模式｜Aller&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="https://www.yanle.ren/2017/03/26/2017-03-26数组的reduce方法两个使用实例/">
+    <link rel="canonical" href="https://www.yanle.ren/2017/03/20/2017-03-20设计模式 -- 常见的单例模式/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -144,13 +144,13 @@
 <!--only post-->
 
 
-<img class="wechat-title-img" src="http://omj9dkm9p.bkt.clouddn.com/%E5%B1%B1%E8%84%89.jpg">
+<img class="wechat-title-img" src="http://omj9dkm9p.bkt.clouddn.com/%E7%BB%BF%E8%89%B2%E6%A1%A5.jpg?imageslim">
 
 
 <style>
     
     header.intro-header {
-        background-image: url('http://omj9dkm9p.bkt.clouddn.com/%E5%B1%B1%E8%84%89.jpg');
+        background-image: url('http://omj9dkm9p.bkt.clouddn.com/%E7%BB%BF%E8%89%B2%E6%A1%A5.jpg?imageslim');
     }
 
     
@@ -161,20 +161,23 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>利用数组的reduce方法优化代码</h1>
+                    <h1>设计模式 -- 常见的单例模式</h1>
                     
-                    <h2 class="subheading">大大简化代码</h2>
+                    <h2 class="subheading">要懂一点设计模式</h2>
                     
                     <span class="meta">
                          作者 闫乐
                         <span>
-                          日期 2017-03-26
+                          日期 2017-03-20
                          </span>
                     </span>
                     <div class="tags text-center">
                         
                         <a class="tag" href="/tags/#js"
                            title="js">js</a>
+                        
+                        <a class="tag" href="/tags/#设计模式"
+                           title="设计模式">设计模式</a>
                         
                     </div>
                 </div>
@@ -183,7 +186,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            利用数组的reduce方法优化代码
+            设计模式 -- 常见的单例模式
         </span>
     </div>
 </header>
@@ -195,121 +198,89 @@
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
                 <hr>
-<p>今天好好学习了一下数组的reduce方法,简单说该方法可实现数组内元素的累加,内部自执行循环遍历,传入一个函数作为回调,回调内常用的有累加,数组拼接等,语法形式为:</p>
-<h2>arr.reduce(callback , [initialValue])</h2>
-<p>callback（一个在数组中每一项上调用的函数，接受四个函数：）</p>
-<ol>
-<li>previousValue（上一次调用回调函数时的返回值，或者初始值）</li>
-<li>currentValue（当前正在处理的数组元素）</li>
-<li>currentIndex（当前正在处理的数组元素下标）</li>
-<li>array（调用reduce()方法的数组）</li>
-</ol>
-<p>initialValue（可选的初始值。作为第一次调用回调函数时传给previousValue的值）</p>
-<hr>
-<p>废话不多说,直接上实例代码,因为reduce有兼容问题,所以下面两个实例都是写了一个普通实现方法,一个reduce实现方法.</p>
-<h2>1.统计一个字符串中相同字符出现的次数,</h2>
-<pre><code>//因为下面要用到很多isArray方法,该原生方法为ES5推出,所以处理下兼容
-if(typeof Array.isArray != 'function'){
-    Array.isArray = function (obj) {
-        return Object.prototype.call.toString(obj) == '[object Array]';
+<h1>单例模式:在整个程序的运行过程中一个类只有一个实例对象.</h1>
+<h2>1. 全局变量实现方式</h2>
+<pre><code>var instance;
+function Person(){
+    if(instance)
+    {
+        console.log(&quot;对象已经被创建,直接把之前创建好的对象返回&quot;);
+        return instance;
     }
+    instance = this;
+    this.name = &quot;奥特曼&quot;;
+    this.age = 1000;
+    console.log(&quot;第一次创建对象,创建对象之后并返回&quot;);
 }
-
-//一.统计一个字符串中相同字符出现的次数
-(function(){
-    //解法1:
-    var str = 'abbcdacda';
-    //1用空字符分隔字符串为数组
-    var strArr = str.split('');
-    //2声明一个空对象用来记录数据
-    var count = {};
-    for (var i = 0; i &lt; strArr.length; i++) {
-        //3取出数组中每个元素,当做count的属性,并初始化值为0,即对比前出现的次数为0
-        var s = strArr[i];
-        count[s] = 0;
-        for (var j = 0; j &lt; strArr.length; j++) {
-            //4对比时如果有相同值出现,次数+1
-            if(s == strArr[j]){
-                count[s]++
-            }
-        }
-    }
-    for(var key in count){
-        console.log(key+'出现了'+count[key]+'次');
-    }
-    //解法2,利用reduce,超级简单.
-    //思路:将字符串分隔为数组,第二个 参数传入空对象,将callback中第二个参数,也就是每一个字符串
-    //当做key存储为空对象的属性,第一次运算a = {};返回值的逗号是当做运算符,最后一次运算结束后
-    //返回return的括号里最后一个值,也就是把a对象返回
-    var info = str.split('').reduce(function(a,b){
-       return (a[b]++ || (a[b]=1) , a);
-    },{});
-    for(var key in info){
-        console.log(''+key+'出现了'+info[key]+'次');
+</code></pre>
+<p><strong>缺点:该全局变量在整个作用域中都可以被访问或者修改,修改后,创建的实例对象就不再是之前那个单利对象了.</strong></p>
+<h2>2.静态属性实现方式:</h2>
+<pre><code>function Person(){
+    //判断对象是否已经被创建
+    if (Person.instance)
+    {
+        console.log(&quot;之前已经创建过对象,直接返回&quot;);
+        return Person.instance;
     }
 
-})();
+    this.name = &quot;大黄蜂&quot;
+    Person.instance  = this;
+    console.log(&quot;第一次创建&quot;);
+}
+</code></pre>
+<p><strong>缺点:也可能被修改,也不安全</strong></p>
+<h2>3. 闭包-惰性函数实现方式</h2>
+<pre><code>function Person(){
+    var instance;
+    Person = function(){
+        return instance;
+    }
+    this.name = &quot;威震天&quot;;
+    instance = this;
+}
+</code></pre>
+<p><strong>缺点:在创建对象之后设置的原型对象和这个实例对象的原型对象并非是同一个,新设置的原型属性和方法无法访问,并且对象的构造函数属性指向的是旧的构造函数</strong></p>
+<h2>4.闭包-惰性函数改进,完美方案</h2>
+<p><strong>核心过程:<br>
+01.提供一个构造函数;<br>
+02.在构造函数内部声明一个私有变量;<br>
+03.使用惰性函数定义更新构造函数的实现(直接把私有变量返回);<br>
+04.设置 新构造函数的原型对象 = 旧构造函数的原型对象==&gt; 构造函数.prototype = 对象.<strong>proto</strong>;<br>
+05.使用新的构造函数创建实例对象,并且赋值给私有变量;<br>
+06.修正对象的构造函数指向;<br>
+07.通过私有变量设置实例属性和方法;</strong></p>
+<pre><code>function Person(){
+    var item;
+    Person = function () {
+        return item;
+    };
+    //设置新的构造函数原型对象 = 旧构造函数的实例,原型链继承方式
+    Person.prototype = this;
+    //通过新构造函数实例化对象,赋值给私有变量
+    item = new Person();
+    //修正构造器属性指向到新构造函数
+    item.constructor = Person;
+    //通过私有变量设置属性和方法
+    item.name = 'lisi';
+    return item;
+}
 </code></pre>
 <hr>
-<h2>2.将多维数组扁平化.</h2>
-<pre><code>//二.将一个二维或多维数组扁平化
-(function () {
-    //解法1:复杂的二维数组,包含数字和字符串
-    var arrTwo = [[1,2],3,'abc',[3,4,4],[5,6]];
-    //①普通笨解法
-    //1首先定义一个空字符串
-    var str = '';
-    for (var i = 0; i &lt; arrTwo.length; i++) {
-        //如果是数组,用|拼接为字符串再与空字符串拼接,头部添加|是为了保存完整的字符串
-        //如果不是数组,直接和空字符串拼接
-        Array.isArray(arrTwo[i]) ? str += ('|'+arrTwo[i].join('|')) : str += ('|'+arrTwo[i]);
-
-    }
-    //2.拼接完成的字符串,从索引1开始截取,因为第一个是|;然后再转化为数组.
-    console.log(str.slice(1).split('|'));
-
-    //解法2:多维数组
-    //①普通解法
-    var arrMore = [1,[2,[3,[4,[5,[6,[7,[8,[9,[10]]]]]]]]]];
-    var curArr = [];
-    //1循环遍历数组,取出的每个子元素判断是否为数组,如果是数组,继续调用该方法
-    for (var j = 0; j &lt; arrMore.length; j++) {
-        Array.isArray(arrMore[j]) ? flatte(arrMore[j],curArr) : curArr.push(arrMore[j]);
-    }
-    //2.flatte方法传入两个参数,第一个参数为操作的数组,第二个为需要push进的数组
-    function flatte(arr,cur) {
-        for (var i = 0; i &lt; arr.length; i++) {
-            
-            Array.isArray(arr[i]) ? flatte(arr[i],cur) : cur.push(arr[i]);
-        }
-    }
-    console.log(curArr);
-    
-    //②reduce方法
-    function flatteReduce(arr) {
-        return arr.reduce(function (acc, val) {
-            return acc.concat(Array.isArray(val) ? flatteReduce(val) : val)
-        },[]);
-    }
-    console.log(flatteReduce(arrMore));
-    //reduce方法明显简单很多,但是需要搞明白它的原理.
-})();
-</code></pre>
-<hr>
-<p>最后供上MDN的文档说明<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce" target="_blank" rel="external">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce</a></p>
-<p>2017/3/26 20:03:14</p>
+<p>2017/3/20 15:55:48</p>
 
                 <hr>
                 
                 <!-- 多说 Share start -->
                 <div class="ds-share"
                      style="text-align: right"
-                     data-thread-key="2017/03/26/2017-03-26数组的reduce方法两个使用实例/"
-                     data-title="利用数组的reduce方法优化代码"
-                     data-url="https://www.yanle.ren/2017/03/26/2017-03-26数组的reduce方法两个使用实例/"
-                     data-images=""
+                     data-thread-key="2017/03/20/2017-03-20设计模式 -- 常见的单例模式/"
+                     data-title="设计模式 -- 常见的单例模式"
+                     data-url="https://www.yanle.ren/2017/03/20/2017-03-20设计模式 -- 常见的单例模式/"
+                     data-images="https://www.yanle.ren/2017/03/20/2017-03-20设计模式 -- 常见的单例模式/http://omj9dkm9p.bkt.clouddn.com/%E7%BB%BF%E8%89%B2%E6%A1%A5.jpg?imageslim"
                      data-content="
-今天好好学习了一下数组的reduce方法,简单说该方法可实现数组内元素的累加,内部自执行循环... | Aller&#39;s blog ">
+单例模式:在整个程序的运行过程中一个类只有一个实例对象.
+1. 全局变量实现方式
+var i... | Aller&#39;s blog ">
                     <div class="ds-share-inline">
                         <ul class="ds-share-icons-16">
                             <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
@@ -328,14 +299,14 @@ if(typeof Array.isArray != 'function'){
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2017/04/05/2017-04-05Angular学习笔记/" data-toggle="tooltip" data-placement="top"
-                           title="Angular学习笔记">&larr; Previous Post</a>
+                        <a href="/2017/03/23/2017-03-23性能优化之关键渲染路径/" data-toggle="tooltip" data-placement="top"
+                           title="性能优化之关键渲染路径">&larr; Previous Post</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2017/03/23/2017-03-23性能优化之关键渲染路径/" data-toggle="tooltip" data-placement="top"
-                           title="性能优化之关键渲染路径">Next Post &rarr;</a>
+                        <a href="/2017/03/18/2017-03-18面向对象相关概念的整理/" data-toggle="tooltip" data-placement="top"
+                           title="面向对象相关概念的整理">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -344,9 +315,9 @@ if(typeof Array.isArray != 'function'){
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                         data-thread-key="2017/03/26/2017-03-26数组的reduce方法两个使用实例/"
-                         data-title="利用数组的reduce方法优化代码"
-                         data-url="https://www.yanle.ren/2017/03/26/2017-03-26数组的reduce方法两个使用实例/">
+                         data-thread-key="2017/03/20/2017-03-20设计模式 -- 常见的单例模式/"
+                         data-title="设计模式 -- 常见的单例模式"
+                         data-url="https://www.yanle.ren/2017/03/20/2017-03-20设计模式 -- 常见的单例模式/">
                     </div>
                 </div>
                 <!-- 多说评论框 end -->
@@ -358,7 +329,7 @@ if(typeof Array.isArray != 'function'){
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">arr.reduce(callback , [initialValue])</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">1.统计一个字符串中相同字符出现的次数,</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">2.将多维数组扁平化.</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#undefined"><span class="toc-text">单例模式:在整个程序的运行过程中一个类只有一个实例对象.</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">1. 全局变量实现方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">2.静态属性实现方式:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">3. 闭包-惰性函数实现方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">4.闭包-惰性函数改进,完美方案</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
@@ -382,6 +353,9 @@ if(typeof Array.isArray != 'function'){
                         
                         <a class="tag" href="/tags/#js"
                            title="js">js</a>
+                        
+                        <a class="tag" href="/tags/#设计模式"
+                           title="设计模式">设计模式</a>
                         
                     </div>
                 </section>
