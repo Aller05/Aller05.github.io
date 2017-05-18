@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Angular学习笔记｜Aller&#39;s blog
+        浅析Angular的数据绑定原理｜Aller&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="https://www.yanle.ren/2017/04/05/2017-04-05Angular学习笔记/">
+    <link rel="canonical" href="https://www.yanle.ren/2017/04/11/2017-04-11浅析Angular的数据绑定原理/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -161,12 +161,12 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>Angular学习笔记</h1>
+                    <h1>浅析Angular的数据绑定原理</h1>
                     
                     <span class="meta">
                          作者 闫乐
                         <span>
-                          日期 2017-04-05
+                          日期 2017-04-11
                          </span>
                     </span>
                     <div class="tags text-center">
@@ -181,7 +181,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            Angular学习笔记
+            浅析Angular的数据绑定原理
         </span>
     </div>
 </header>
@@ -193,22 +193,66 @@
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
                 <hr>
-<p><img src="http://omj9dkm9p.bkt.clouddn.com/angular.png" alt=""></p>
-<p>2017/4/5 23:26:33</p>
+<h1>特别提醒:因Markdown语法无法识别插值语法,故下文中的{}等同于双大括号(花括号),请谅解.</h1>
+<h2>1.什么是双向数据绑定</h2>
+<p>Angular实现了双向绑定机制。所谓的双向绑定，无非是从界面的操作能实时反映到数据，数据的变更能实时展现到界面。即数据模型（Module）和视图（View）之间的双向绑定。</p>
+<p>例子:
+		&lt;!DOCTYPE html&gt;
+		&lt;html&gt;
+		&lt;head&gt;
+		&lt;meta charset=&quot;utf-8&quot;&gt;
+		&lt;script src=&quot;http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js&quot;&gt;&lt;/script&gt;
+		&lt;/head&gt;
+		    &lt;body&gt;</p>
+<pre><code>	        &lt;div ng-app=&quot;myApp&quot; ng-controller=&quot;myCtrl&quot;&gt;
+	            输入: &lt;input ng-model=&quot;name&quot;&gt;
+	            &lt;h1&gt;你输入了: {name}&lt;/h1&gt;
+	        &lt;/div&gt;
+	
+	        &lt;script&gt;
+	        var app = angular.module('myApp', []);
+	        app.controller('myCtrl', function($scope) {
+	            $scope.name = &quot;test&quot;;
+	        });
+	        &lt;/script&gt;
+	    &lt;/body&gt;
+	&lt;/html&gt;
+</code></pre>
+<p>当你在输入框中进行输入时，也会修改网页中的文本内容。</p>
+<p>这里我使用了{}来实现了最简单数据绑定，{}进行的数据绑定时单向的，只实现了数据展示。然后我用input标签配合ng-model 实现了一个简单的双向数据绑定的例子，双向绑定最常用的场景就是表单，这样当用户在前端页面完成输入后，不用任何操作，我们就已经拿到了用户的数据存放到数据模型中了。</p>
+<h2>2.双向数据绑定与单向数据绑定</h2>
+<p>单向数据绑定：<br>
+数据模型–&gt;视图<br>
+El表达式中常见 ${变量名}以及{} ，它只提供从数据源到视图的单方向的数据展示。<br>
+缺点：HTML代码一旦生成完以后，就没有办法再变了，如果有新的数据来了，那就必须把之前的HTML代码去掉，重新整合生成一次。</p>
+<p>双向数据绑定：<br>
+数据模型&lt;==&gt;视图<br>
+用户在视图上的修改会自动同步到数据模型中去，同样的，如果数据模型中的值发生了变化，也会立刻同步到视图中去。<br>
+缺点：双向数据绑定的应用场景非常有限。</p>
+<h2>3.双向数据绑定原理</h2>
+<p>脏检查机制：<br>
+Angular将双向绑定转换为一堆watch表达式，然后递归这些表达式检查是否发生过变化，如果变了则执行相应的watcher函数（指view上的指令，如ng-bind，ng-show等或是{}）。等到model中的值不再发生变化，也就不会再有watcher被触发，一个完整的digest循环就完成了。
+脏检查机制的触发：Angular中在view上声明的事件指令，如：ng-click、ng-change等，会将浏览器的事件转发给$scope上相应的model的响应函数。等待相应函数改变model，紧接着触发脏检查机制刷新view。</p>
+<p>脏检查机制（dirty-checking）是实现双向数据绑定的重要基础。
+Angular中的$digest函数：当接受view上的事件指令转发的事件时，就会切换到Angular的上下文环境，来影响这类事件，$digest循环就会触发。</p>
+<p>遍历一遍所有的watcher函数就是一轮脏检查，执行完一轮之后，只要有watcher监听的值改变过，那么就会重新在进行一轮，直到所有的值都没有变化。从第一轮到所有数据稳定称为一个完整的$digest循环。当循环结束后，才把模型的变化结果更新到dom中去，防止频繁的dom操作。</p>
+<p>我们已经知道什么时候以及怎么开始digest循环了，那么digest循环具体做了些什么？<br>
+在digest循环中，AngularJS会遍历整个$watch列表，所有watcher都会被触发，当一个wathcer被触发时，AngularJS会检测Scope模型相应的数据，如果它发生了变化，那么关联到该watcher的回调函数就会被触发。<br>
+如果执行了一次digest循环后某个值发生了变化，那么AngularJS会再次循环，直至不再有任何变化。这是因为你在$watch中更新某个值，如果该值对应的$watch已在这遍循环通过，AngularJS将检测不到变化无法更新。如果循环运行了10次或更多次，AngularJS会抛出异常并停止。（就算没有更新值，AngularJS也会多运行一次来确保没有改变，也就是至少运行两次）。</p>
+<hr>
+<p>2017/4/11 22:23:25</p>
 
                 <hr>
                 
                 <!-- 多说 Share start -->
                 <div class="ds-share"
                      style="text-align: right"
-                     data-thread-key="2017/04/05/2017-04-05Angular学习笔记/"
-                     data-title="Angular学习笔记"
-                     data-url="https://www.yanle.ren/2017/04/05/2017-04-05Angular学习笔记/"
+                     data-thread-key="2017/04/11/2017-04-11浅析Angular的数据绑定原理/"
+                     data-title="浅析Angular的数据绑定原理"
+                     data-url="https://www.yanle.ren/2017/04/11/2017-04-11浅析Angular的数据绑定原理/"
                      data-images=""
                      data-content="
-
-2017/4/5 23:26:33
- | Aller&#39;s blog ">
+特别提醒:因Markdown语法无法识别插值语法,故下文中的{}等同于双大括号(花括号),请... | Aller&#39;s blog ">
                     <div class="ds-share-inline">
                         <ul class="ds-share-icons-16">
                             <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
@@ -226,15 +270,10 @@
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2017/04/11/2017-04-11浅析Angular的数据绑定原理/" data-toggle="tooltip" data-placement="top"
-                           title="浅析Angular的数据绑定原理">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2017/03/26/2017-03-26数组的reduce方法两个使用实例/" data-toggle="tooltip" data-placement="top"
-                           title="利用数组的reduce方法优化代码">Next Post &rarr;</a>
+                        <a href="/2017/04/05/2017-04-05Angular学习笔记/" data-toggle="tooltip" data-placement="top"
+                           title="Angular学习笔记">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -243,9 +282,9 @@
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                         data-thread-key="2017/04/05/2017-04-05Angular学习笔记/"
-                         data-title="Angular学习笔记"
-                         data-url="https://www.yanle.ren/2017/04/05/2017-04-05Angular学习笔记/">
+                         data-thread-key="2017/04/11/2017-04-11浅析Angular的数据绑定原理/"
+                         data-title="浅析Angular的数据绑定原理"
+                         data-url="https://www.yanle.ren/2017/04/11/2017-04-11浅析Angular的数据绑定原理/">
                     </div>
                 </div>
                 <!-- 多说评论框 end -->
@@ -257,7 +296,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#undefined"><span class="toc-text">特别提醒:因Markdown语法无法识别插值语法,故下文中的{}等同于双大括号(花括号),请谅解.</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">1.什么是双向数据绑定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">2.双向数据绑定与单向数据绑定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-text">3.双向数据绑定原理</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
